@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+      body {
+        background-color: black;
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+
+      .button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .button {
+        background-color: white;
+        color: blue;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: transform 0.3s ease-in-out;
+      }
+
+      /* .button:hover {
+            transform: translateX(5px);
+        } */
+
+      /* #nao {
+            position: absolute;
+            display: none;
+        } */
+    </style>
+  </head>
+  <body>
+    <h2>cuzinho hoje?</h2>
+    <div class="button-container">
+      <button id="sim" class="button">Sim</button>
+      <button id="nao" class="button">Não</button>
+    </div>
+
+    <script>
+      const simButton = document.getElementById("sim");
+
+      simButton.addEventListener("click", () => {
+        Swal.fire({
+          title: "Hoje?",
+          text: "Isso é uma pergunta muito séria, e eu vou querer",
+          icon: "question",
+          confirmButtonColor: "green",
+          cancelButtonColor: "white",
+          confirmButtonText: "Sim, tenho certeza!",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire(
+              "Confirmado!",
+              "Agora eu quero 😏😈",
+              "success"
+            );
+          }
+        });
+      });
+      const naoButton = document.getElementById("nao");
+
+      naoButton.addEventListener("mouseover", () => {
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+
+        const randomX = Math.random() * (screenWidth - 100);
+        const randomY = Math.random() * (screenHeight - 40);
+
+        naoButton.style.position = "absolute";
+        naoButton.style.left = `${randomX}px`;
+        naoButton.style.top = `${randomY}px`;
+      });
+
+      naoButton.addEventListener("click", (e) => {
+        e.preventDefault();
+      });
+
+      naoButton.style.display = "block";
+    </script>
+  </body>
+</html>
