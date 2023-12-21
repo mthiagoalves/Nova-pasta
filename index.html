@@ -6,7 +6,14 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
       body {
-        background-color: black;
+        background: rgb(2, 0, 36);
+        background: linear-gradient(
+          90deg,
+          rgba(2, 0, 36, 1) 29%,
+          rgba(9, 9, 121, 1) 55%,
+          rgba(9, 11, 121, 1) 56%,
+          rgba(17, 94, 110, 1) 100%
+        );
         color: white;
         font-family: Arial, sans-serif;
         text-align: center;
@@ -16,6 +23,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+        overflow: hidden;
       }
 
       h2 {
@@ -40,21 +48,85 @@
         transition: transform 0.3s ease-in-out;
       }
 
-      /* .button:hover {
-            transform: translateX(5px);
-        } */
+      #second-section {
+        position: relative;
+        opacity: 0;
+        transition: opacity 3s ease-in-out;
+        width: 100vw;
+        height: 100vh;
+      }
 
-      /* #nao {
-            position: absolute;
-            display: none;
-        } */
+      .img-lobo {
+        position: absolute;
+        max-width: 100%;
+        height: auto;
+      }
+
+      .img-lobo-pidao-1 {
+        top: 0;
+        left: 0;
+      }
+
+      .img-lobo-pidao-2 {
+        bottom: 0;
+        right: 0;
+      }
+      .hidden {
+        display: none;
+      }
+
+      .visible {
+        display: block;
+      }
+
+      .word {
+        opacity: 0;
+        font-size: 4rem;
+        transition: opacity 0.6s ease-in-out;
+      }
+
+      .emoji {
+        font-size: 4.5rem;
+      }
+
+      #target-text {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
     </style>
   </head>
   <body>
-    <h2>cuzinho hoje?</h2>
-    <div class="button-container">
-      <button id="sim" class="button">Sim</button>
-      <button id="nao" class="button">Não</button>
+    <div id="first-section" class="visible">
+      <h2>cuzinho hoje?</h2>
+      <div class="button-container">
+        <button id="sim" class="button">Sim</button>
+        <button id="nao" class="button">Não</button>
+      </div>
+    </div>
+
+    <div id="second-section" class="hidden">
+      <h1 id="target-text">
+        <span class="word">HOJE <br /></span>
+        <span class="word">EU VOU <br /></span>
+        <span class="word">TE FAZER <br /></span>
+        <span class="word">MULHER <br /></span>
+        <span class="word emoji">😏😈</span>
+      </h1>
+      <img
+        src="assets/imgs/lobo-pidao-1.png"
+        alt=""
+        class="img-lobo-pidao-1 img-lobo"
+      />
+      <img
+        src="assets/imgs/lobo-pidao-2.png"
+        alt=""
+        class="img-lobo-pidao-2 img-lobo"
+      />
+      <audio id="background-music" src="assets/music/lobao.mp3" loop></audio>
     </div>
 
     <script>
@@ -70,14 +142,38 @@
           confirmButtonText: "Sim, tenho certeza!",
         }).then((result) => {
           if (result.isConfirmed) {
-            Swal.fire(
-              "Confirmado!",
-              "Agora eu quero 😏😈",
-              "success"
+            Swal.fire("Confirmado!", "Agora eu quero 😏😈", "success").then(
+              (result) => {
+                document
+                  .getElementById("first-section")
+                  .classList.remove("visible");
+                document
+                  .getElementById("first-section")
+                  .classList.add("hidden");
+                document
+                  .getElementById("second-section")
+                  .classList.remove("hidden");
+
+                // Agora, inicie a transição de opacidade
+                setTimeout(() => {
+                  document.getElementById("second-section").style.opacity = 1;
+                  const backgroundMusic =
+                    document.getElementById("background-music");
+                  backgroundMusic.play();
+
+                  const words = document.querySelectorAll(".word");
+                  words.forEach((word, index) => {
+                    setTimeout(() => {
+                      word.style.opacity = 1;
+                    }, index * 500); // Cada palavra a cada 500 milissegundos
+                  });
+                }, 10);
+              }
             );
           }
         });
       });
+
       const naoButton = document.getElementById("nao");
 
       naoButton.addEventListener("mouseover", () => {
